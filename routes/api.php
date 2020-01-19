@@ -30,4 +30,9 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/deck', 'DeckController@create');
     Route::put('/deck/{id}', 'DeckController@update');
     Route::delete('/deck/{id}', 'DeckController@delete');
+
+    Route::get('/game', 'GameController@get');
+    Route::post('/game', 'GameController@create');
+    // Route::put('/game/{id}', 'GameController@update');
+    // Route::delete('/game/{id}', 'GameController@delete');
 });
