@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableCards extends Migration
+class CreateTableDecks extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateTableCards extends Migration
      */
     public function up()
     {
-        Schema::create('cards', function (Blueprint $table) {
+        Schema::create('decks', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->integer('attack');
-            $table->integer('life');
-            $table->integer('defence');
+            $table->integer('user_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -30,6 +30,7 @@ class CreateTableCards extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cards');
+        Schema::dropForeign(['user_id']);
+        Schema::dropIfExists('decks');
     }
 }

@@ -14,6 +14,8 @@ use App\Http\Resources\User as UserResource;
 |
 */
 
+Route::post('/user/login', 'ApiTokenController@login');
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -23,6 +25,9 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/card', 'CardController@create');
     Route::put('/card/{id}', 'CardController@update');
     Route::delete('/card/{id}', 'CardController@delete');
-    // Route::options($uri, $callback);
 
+    Route::get('/deck', 'DeckController@get');
+    Route::post('/deck', 'DeckController@create');
+    Route::put('/deck/{id}', 'DeckController@update');
+    Route::delete('/deck/{id}', 'DeckController@delete');
 });
