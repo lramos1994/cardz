@@ -1,6 +1,6 @@
 # Cardz
 
-Cardz is an API for a multipurpose card game made using Laravel.
+[WORK IN PROGRESS!] Cardz is an API for a multipurpose card game made using Laravel.
 
 ### Todos
 
