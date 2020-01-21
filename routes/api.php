@@ -14,10 +14,13 @@ use App\Http\Resources\User as UserResource;
 |
 */
 
+Route::post('/user', 'ApiTokenController@register');
 Route::post('/user/login', 'ApiTokenController@login');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+    return response([
+        'response' => $request->user()
+    ], 201);
 });
 
 Route::middleware('auth:api')->group(function () {

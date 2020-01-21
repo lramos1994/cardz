@@ -36,7 +36,7 @@ class CardController extends Controller
         if(Card::insert($validated)) {
             // TODO: implements better return body
             return response([
-                'repsonse' => 'Registered Cards: '.count($validated)
+                'response' => 'Registered Cards: '.count($validated)
             ], 201);
         }
     }
@@ -59,7 +59,7 @@ class CardController extends Controller
         $card = Card::whereId($request->id)->first();
 
         if(!$card)
-            return response(['repsonse' => 'Not Found'], 404);
+            return response(['response' => 'Not Found'], 404);
 
         $card->name = $validated['name'];
         $card->attack = $validated['attack'];
@@ -68,12 +68,12 @@ class CardController extends Controller
 
         if($card->save()) {
             return response([
-                'repsonse' => 'Card Updated'
+                'response' => 'Card Updated'
             ], 200);
         }
 
         return response([
-            'repsonse' => 'No Response'
+            'response' => 'No Response'
         ], 400);
     }
 
@@ -88,16 +88,16 @@ class CardController extends Controller
         $card = Card::whereId($request->id)->first();
 
         if(!$card)
-            return response(['repsonse' => 'Not Found'], 404);
+            return response(['response' => 'Not Found'], 404);
 
         if($card->delete()) {
             return response([
-                'repsonse' => 'Card Deleted'
+                'response' => 'Card Deleted'
             ], 200);
         }
 
         return response([
-            'repsonse' => 'No Response'
+            'response' => 'No Response'
         ], 400);
     }
 }

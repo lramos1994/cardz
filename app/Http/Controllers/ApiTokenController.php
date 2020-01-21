@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use Illuminate\Support\Facades\Auth;
 use App\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -28,16 +28,44 @@ class ApiTokenController extends Controller
 
     public function login(Request $request)
     {
-        $user = User::whereEmail($request->email)->first();
+        $validated = $request->validate([
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required'
+        ]);
 
-        if(!$user) {
+        if (Auth::attempt($validated))
+        {
             return response([
-                'repsonse' => 'not found'
-            ], 404);
+                'response' => $this->update(Auth::user())
+            ], 200);
         }
 
         return response([
-            'repsonse' => $this->update($user)
-        ], 200);
+            'response' => 'not found'
+        ], 400);
+
+    }
+
+    public function register(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required'
+        ]);
+
+        try {
+            $user = new User;
+            $user->name = $validated['name'];
+            $user->email = $validated['email'];
+            $user->password = $validated['password'];
+            $user->save();
+
+            return response([
+                'response' => 'User Created.'
+            ], 201);
+        } catch (\Throwable $th) {
+            return response($th, 401);
+        }
     }
 }

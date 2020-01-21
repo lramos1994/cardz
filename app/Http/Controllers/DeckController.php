@@ -37,7 +37,7 @@ class DeckController extends Controller
         if($deck->save()) {
             // TODO: implements better return body
             return response([
-                'repsonse' => 'Registered Decks: 1'
+                'response' => 'Registered Decks: 1'
             ], 201);
         }
     }
@@ -57,18 +57,18 @@ class DeckController extends Controller
         $deck = Deck::whereId($request->id)->whereUserId($request->user()->id)->first();
 
         if(!$deck)
-            return response(['repsonse' => 'Not Found'], 404);
+            return response(['response' => 'Not Found'], 404);
 
         $deck->name = $validated['name'];
 
         if($deck->save()) {
             return response([
-                'repsonse' => 'Deck Updated'
+                'response' => 'Deck Updated'
             ], 200);
         }
 
         return response([
-            'repsonse' => 'No Response'
+            'response' => 'No Response'
         ], 400);
     }
 
@@ -83,16 +83,16 @@ class DeckController extends Controller
         $deck = Deck::whereId($request->id)->whereUserId($request->user()->id)->first();
 
         if(!$deck)
-            return response(['repsonse' => 'Not Found'], 404);
+            return response(['response' => 'Not Found'], 404);
 
         if($deck->delete()) {
             return response([
-                'repsonse' => 'Card Deleted'
+                'response' => 'Card Deleted'
             ], 200);
         }
 
         return response([
-            'repsonse' => 'No Response'
+            'response' => 'No Response'
         ], 400);
     }
 }
