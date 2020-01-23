@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -14,11 +15,16 @@ class CardsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('cards')->insert([
-            'name' => 'Lucas',
-            'attack' => 2,
-            'life' => 3,
-            'defence' => 1,
-        ]);
+        $user = User::whereId(1)->first();
+
+        DB::table('cards')->insert(
+            [
+                'name' => 'Lucas',
+                'attack' => 2,
+                'life' => 3,
+                'defence' => 1,
+                'user_id' => $user->id,
+            ]
+        );
     }
 }
