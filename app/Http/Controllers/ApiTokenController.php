@@ -26,12 +26,20 @@ class ApiTokenController extends Controller
         return ['token' => $token];
     }
 
+    /**
+     * Return the user token
+     *
+     * @param Request $request
+     * @return void
+     */
     public function login(Request $request)
     {
-        $validated = $request->validate([
-            'email' => 'required|email|exists:users,email',
-            'password' => 'required'
-        ]);
+        $validated = $request->validate(
+            [
+                'email' => 'required|email',
+                'password' => 'required'
+            ]
+        );
 
         if (Auth::attempt($validated))
         {
