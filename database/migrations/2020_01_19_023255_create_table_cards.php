@@ -13,14 +13,20 @@ class CreateTableCards extends Migration
      */
     public function up()
     {
-        Schema::create('cards', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name');
-            $table->integer('attack');
-            $table->integer('life');
-            $table->integer('defence');
-            $table->timestamps();
-        });
+        Schema::create(
+            'cards',
+            function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->string('name');
+                $table->integer('attack');
+                $table->integer('life');
+                $table->integer('defence');
+                $table->integer('user_id')
+                    ->references('id')->on('users')
+                    ->onDelete('cascade');
+                $table->timestamps();
+            }
+        );
     }
 
     /**
@@ -30,6 +36,7 @@ class CreateTableCards extends Migration
      */
     public function down()
     {
+        Schema::dropForeign(['user_id']);
         Schema::dropIfExists('cards');
     }
 }

@@ -22,4 +22,12 @@ class Deck extends Model
     {
         return $this->hasOne('App\User');
     }
+
+    /**
+     * The games that belong to the deck.
+     */
+    public function games()
+    {
+        return $this->belongsToMany('App\Game')->withTimestamps();;
+    }
 }
