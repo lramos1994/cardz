@@ -13,8 +13,16 @@ class DeckController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function get(Request $request)
+    public function get(Request $request, $id = false)
     {
+        if ($id) {
+            $deck = Deck::whereId($id)->first();
+            if ($deck) {
+                return $deck;
+            }
+            return response(['response' => 'Not Found'], 404);
+        }
+
         return Deck::all();
     }
 
@@ -54,22 +62,20 @@ class DeckController extends Controller
             'name' => 'required'
         ]);
 
-        $deck = Deck::whereId($request->id)->whereUserId($request->user()->id)->first();
+        $deck = Deck::where(
+            ['id' => $request->id, 'user_id' => $request->user()->id]
+        )->first();
 
-        if(!$deck)
+        if (!$deck)
             return response(['response' => 'Not Found'], 404);
 
         $deck->name = $validated['name'];
 
-        if($deck->save()) {
-            return response([
-                'response' => 'Deck Updated'
-            ], 200);
+        if ($deck->save()) {
+            return response(['response' => 'Deck Updated'], 200);
         }
 
-        return response([
-            'response' => 'No Response'
-        ], 400);
+        return response(['response' => 'No Response'], 400);
     }
 
     /**

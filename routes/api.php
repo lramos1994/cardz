@@ -25,11 +25,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/card', 'CardController@get');
+    Route::get('/card/{id}', 'CardController@get');
     Route::post('/card', 'CardController@create');
     Route::put('/card/{id}', 'CardController@update');
     Route::delete('/card/{id}', 'CardController@delete');
 
     Route::get('/deck', 'DeckController@get');
+    Route::get('/deck/{id}', 'DeckController@get');
     Route::post('/deck', 'DeckController@create');
     Route::put('/deck/{id}', 'DeckController@update');
     Route::delete('/deck/{id}', 'DeckController@delete');
