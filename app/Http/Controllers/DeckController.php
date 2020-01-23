@@ -23,7 +23,7 @@ class DeckController extends Controller
             return response(['response' => 'Not Found'], 404);
         }
 
-        return Deck::all();
+        return Deck::whereUserId($request->user()->id)->get();
     }
 
     /**
