@@ -22,7 +22,7 @@ class CardsTableSeeder extends Seeder
                 'name' => 'Lucas',
                 'attack' => 2,
                 'life' => 3,
-                'defence' => 1,
+                'defense' => 1,
                 'user_id' => $user->id,
             ]
         );

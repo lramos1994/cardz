@@ -22,7 +22,7 @@ class GamesTableSeeder extends Seeder
                 'name' => Str::random(20),
                 'attack' => 'Ataque',
                 'life' => 'Vida',
-                'defence' => 'Defesa',
+                'defense' => 'Defesa',
                 'user_id' => $user->id
             ]);
         }

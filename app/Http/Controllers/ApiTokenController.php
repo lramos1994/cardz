@@ -43,14 +43,16 @@ class ApiTokenController extends Controller
 
         if (Auth::attempt($validated))
         {
-            return response([
-                'response' => $this->update(Auth::user())
-            ], 200);
+            return response(
+                ['response' => $this->update(Auth::user())],
+                200
+            );
         }
 
-        return response([
-            'response' => 'not found'
-        ], 400);
+        return response(
+            ['message' => 'Email ou Senha invalido!'],
+            400
+        );
 
     }
 

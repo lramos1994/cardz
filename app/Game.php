@@ -15,7 +15,7 @@ class Game extends Model
         'name',
         'attack',
         'life',
-        'defence',
+        'defense',
         'decks',
     ];
 

@@ -40,7 +40,7 @@ class GameController extends Controller
         $game->name = $request->name;
         $game->attack = $request->attack;
         $game->life = $request->life;
-        $game->defence = $request->defence;
+        $game->defense = $request->defense;
         $game->user_id = $user->id;
 
         if($game->save()) {

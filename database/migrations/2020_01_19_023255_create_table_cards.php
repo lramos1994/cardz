@@ -20,7 +20,7 @@ class CreateTableCards extends Migration
                 $table->string('name');
                 $table->integer('attack');
                 $table->integer('life');
-                $table->integer('defence');
+                $table->integer('defense');
                 $table->integer('user_id')
                     ->references('id')->on('users')
                     ->onDelete('cascade');

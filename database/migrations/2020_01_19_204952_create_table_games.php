@@ -18,7 +18,7 @@ class CreateTableGames extends Migration
             $table->string('name');
             $table->string('attack');
             $table->string('life');
-            $table->string('defence');
+            $table->string('defense');
             $table->integer('user_id')
                 ->references('id')->on('users')
                 ->onDelete('cascade');

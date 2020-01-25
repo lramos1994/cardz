@@ -12,6 +12,6 @@ class Card extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'attack', 'life', 'defence'
+        'name', 'attack', 'life', 'defense'
     ];
 }

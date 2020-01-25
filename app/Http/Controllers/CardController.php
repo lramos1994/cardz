@@ -26,18 +26,25 @@ class CardController extends Controller
      */
     public function create(Request $request)
     {
-        $validated = $request->validate([
-            '*.name' => 'required',
-            '*.attack' => 'required|integer',
-            '*.life' => 'required|integer',
-            '*.defence' => 'required|integer',
-        ]);
+        $cards = $request->validate(
+            [
+                '*.name' => 'required',
+                '*.attack' => 'required|integer',
+                '*.life' => 'required|integer',
+                '*.defense' => 'required|integer',
+            ]
+        );
 
-        if(Card::insert($validated)) {
+        foreach ($cards as $key => &$card) {
+            $card['user_id'] = $request->user()->id;
+        }
+
+        if(Card::insert($cards)) {
             // TODO: implements better return body
-            return response([
-                'response' => 'Registered Cards: '.count($validated)
-            ], 201);
+            return response(
+                ['message' => 'Registered Cards: '.count($cards)],
+                201
+            );
         }
     }
 
@@ -53,7 +60,7 @@ class CardController extends Controller
             'name' => 'required',
             'attack' => 'required|integer',
             'life' => 'required|integer',
-            'defence' => 'required|integer',
+            'defense' => 'required|integer',
         ]);
 
         $card = Card::whereId($request->id)->first();
@@ -64,7 +71,7 @@ class CardController extends Controller
         $card->name = $validated['name'];
         $card->attack = $validated['attack'];
         $card->life = $validated['life'];
-        $card->defence = $validated['defence'];
+        $card->defense = $validated['defense'];
 
         if($card->save()) {
             return response([
