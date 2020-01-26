@@ -12,8 +12,17 @@ class Deck extends Model
      * @var array
      */
     protected $fillable = [
-        'name'
+        'name',
     ];
+
+    protected $appends = [
+        'cards'
+    ];
+
+    public function getCardsAttribute($value)
+    {
+        return $this->cards()->get();
+    }
 
     /**
      * Get the user record associated with the user.
@@ -29,5 +38,13 @@ class Deck extends Model
     public function games()
     {
         return $this->belongsToMany('App\Game')->withTimestamps();;
+    }
+
+    /**
+     * The cards that belong to the deck.
+     */
+    public function cards()
+    {
+        return $this->belongsToMany('App\Card')->withTimestamps();;
     }
 }

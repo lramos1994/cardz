@@ -39,10 +39,18 @@ class CardController extends Controller
             $card['user_id'] = $request->user()->id;
         }
 
-        if(Card::insert($cards)) {
+        $created = [];
+        foreach ($cards as $key => $card) {
+            $created[] = Card::create($card);
+        }
+
+        if (!empty($created)) {
             // TODO: implements better return body
             return response(
-                ['message' => 'Registered Cards: '.count($cards)],
+                [
+                    'message' => 'Registered Cards: '.count($cards),
+                    'cards' => $created
+                ],
                 201
             );
         }

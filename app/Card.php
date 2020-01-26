@@ -12,6 +12,18 @@ class Card extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'attack', 'life', 'defense'
+        'name', 'attack', 'life', 'defense', 'user_id'
     ];
+
+    protected $hidden = [
+        'pivot'
+    ];
+
+    /**
+     * Get the decks.
+     */
+    public function decks()
+    {
+        return $this->belongsToMany('App\Deck')->withTimestamps();;
+    }
 }

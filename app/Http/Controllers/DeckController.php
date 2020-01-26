@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Deck;
+use App\Card;
+use Illuminate\Support\Arr;
 
 class DeckController extends Controller
 {
@@ -34,15 +36,23 @@ class DeckController extends Controller
      */
     public function create(Request $request)
     {
-        $request->validate([
-            'name' => 'required'
-        ]);
+        $request->validate(
+            ['name' => 'required']
+        );
 
         $deck = new Deck();
         $deck->name = $request->name;
         $deck->user_id = $request->user()->id;
 
         if($deck->save()) {
+
+            $cards = [];
+            foreach ($request->cards as $key => $card) {
+                $cards[] = Card::where($card)->first();
+            }
+
+            $deck->cards()->saveMany($cards);
+
             // TODO: implements better return body
             return response([
                 'response' => 'Registered Decks: 1'
@@ -70,6 +80,10 @@ class DeckController extends Controller
             return response(['response' => 'Not Found'], 404);
 
         $deck->name = $validated['name'];
+
+        $cards = Arr::pluck($request->cards, 'id');
+
+        $deck->cards()->sync($cards);
 
         if ($deck->save()) {
             return response(['response' => 'Deck Updated'], 200);
