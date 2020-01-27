@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Http\Resources\User as UserResource;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,30 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::post('/user', 'ApiTokenController@register');
+Route::post('/user/login', 'ApiTokenController@login');
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+    return response([
+        'response' => $request->user()
+    ], 201);
+});
+
+Route::middleware('auth:api')->group(function () {
+    Route::get('/card', 'CardController@get');
+    Route::get('/card/{id}', 'CardController@get');
+    Route::post('/card', 'CardController@create');
+    Route::put('/card/{id}', 'CardController@update');
+    Route::delete('/card/{id}', 'CardController@delete');
+
+    Route::get('/deck', 'DeckController@get');
+    Route::get('/deck/{id}', 'DeckController@get');
+    Route::post('/deck', 'DeckController@create');
+    Route::put('/deck/{id}', 'DeckController@update');
+    Route::delete('/deck/{id}', 'DeckController@delete');
+
+    Route::get('/game', 'GameController@get');
+    Route::post('/game', 'GameController@create');
+    // Route::put('/game/{id}', 'GameController@update');
+    // Route::delete('/game/{id}', 'GameController@delete');
 });
