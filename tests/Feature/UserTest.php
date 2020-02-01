@@ -5,13 +5,14 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\CreatesApplication;
-use Tests\MigrateFreshSeedOnce;
 use Tests\TestCase;
+use Tests\Traits\RefreshDatabaseWithSeeds;
+use Tests\WithUser;
 
 class UserTest extends TestCase
 {
 
-    use MigrateFreshSeedOnce;
+    use RefreshDatabaseWithSeeds, WithUser;
 
     /**
      * A basic feature test example.
