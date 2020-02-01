@@ -4,18 +4,14 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Tests\CreatesApplication;
+use Tests\MigrateFreshSeedOnce;
 use Tests\TestCase;
 
 class UserTest extends TestCase
 {
 
-    use RefreshDatabase;
-
-    protected $user = [
-        "name" => "Lucas Ramos",
-        "email" => "lramos@gmail.com",
-        "password" => "lucas123"
-    ];
+    use MigrateFreshSeedOnce;
 
     /**
      * A basic feature test example.
@@ -27,7 +23,7 @@ class UserTest extends TestCase
         $response = $this->json(
             'POST',
             '/api/user',
-            $this->user
+            static::$user
         );
 
         $response
@@ -42,20 +38,21 @@ class UserTest extends TestCase
     /**
      * A basic feature test example.
      *
+     * @depends testUserCreation
      * @return void
      */
     public function testUserLogin()
     {
-        $this->testUserCreation();
-
         $response = $this->json(
             'POST',
             '/api/user/login',
             [
-                "email" => $this->user['email'],
-                "password" => $this->user['password']
+                "email" => static::$user['email'],
+                "password" => static::$user['password']
             ]
         );
+
+        static::$user['token'] = $response['response']['token'];
 
         $response
             ->assertStatus(200)
@@ -64,6 +61,28 @@ class UserTest extends TestCase
                     'response' => [
                         "token",
                     ],
+                ]
+            );
+    }
+
+    /**
+     * A basic feature test example.
+     *
+     * @depends testUserCreation
+     * @return void
+     */
+    public function testUserCredencials()
+    {
+        $response = $this->withHeaders(
+            ['Authorization' => 'Bearer '.static::$user['token']]
+        )->get('/api/user');
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonStructure(
+                [
+                    "name",
+                    "email",
                 ]
             );
     }

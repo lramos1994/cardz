@@ -18,9 +18,7 @@ Route::post('/user', 'ApiTokenController@register');
 Route::post('/user/login', 'ApiTokenController@login');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return response([
-        'response' => $request->user()
-    ], 201);
+    return response($request->user(), 200);
 });
 
 Route::middleware('auth:api')->group(function () {
